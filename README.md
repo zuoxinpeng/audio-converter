@@ -1,181 +1,53 @@
 # Audio Converter
 
-![Python](https://img.shields.io/badge/python-3.10+-blue.svg)
-![License](https://img.shields.io/badge/license-MIT-green.svg)
-![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)
+一款功能强大的音频格式转换和剪辑工具，支持 NCM、MP3、WAV、AAC、FLAC、OGG 等格式。
 
-A versatile audio format conversion and clipping tool that supports NCM, MP3, WAV, AAC, FLAC, OGG, and more.
+## 功能特点
 
-## ✨ Features
+- NCM 格式转换 - 网易云音乐 NCM 格式转换为 MP3/FLAC
+- 音频剪辑 - 按时间范围精确提取音频片段
+- 格式转换 - 支持 MP3、WAV、AAC、FLAC、OGG、OPUS 等格式互转
+- 元数据查看 - 查看音频时长、比特率、采样率等信息
+- Python API - 可作为 Python 库在项目中使用
+- 批量处理 - 高效转换或剪辑多个文件
 
-- 🎵 **NCM Format Conversion** - Convert NetEase Cloud Music (NCM) files to MP3/FLAC
-- ✂️ **Audio Clipping** - Extract audio segments by time range with precision
-- 🔄 **Format Conversion** - Convert between MP3, WAV, AAC, FLAC, OGG, OPUS, and more
-- 📋 **Metadata Viewing** - View audio file info (duration, bitrate, sample rate)
-- 🐍 **Python API** - Use as a Python library in your own projects
-- 📦 **Batch Processing** - Convert or clip multiple files efficiently
+## 快速开始
 
-## 🚀 Quick Start
+### 安装依赖
 
-### Installation
-
-```bash
-# Clone the repository
-git clone https://github.com/zuoxinpeng/audio-converter.git
-cd audio-converter
-
-# Install dependencies
+`ash
 pip install -r requirements.txt
-```
+`
 
-### Prerequisites
+### FFmpeg 安装
 
-- **Python 3.10+** (Python 3.10-3.12 recommended)
-- **FFmpeg** (for audio processing)
+- Windows: 从 ffmpeg.org 下载
+- macOS: brew install ffmpeg
+- Linux: sudo apt install ffmpeg
 
-#### Install FFmpeg
+### 使用方法
 
-| Platform | Command |
-|----------|---------|
-| Windows | Download from [ffmpeg.org](https://ffmpeg.org/download.html) |
-| macOS | `brew install ffmpeg` |
-| Linux | `sudo apt install ffmpeg` |
+`ash
+# NCM 转换为 MP3
+python audio_tool.py convert 歌曲.ncm
 
-### Usage
+# 剪辑音频片段
+python audio_tool.py clip 歌曲.mp3 29 45
 
-```bash
-# Convert NCM to MP3
-python audio_tool.py convert "song.ncm"
+# 查看音频信息
+python audio_tool.py info 歌曲.mp3
+`
 
-# Clip audio segment (29s to 45s)
-python audio_tool.py clip "song.mp3" 29 45
+## 命令说明
 
-# View audio information
-python audio_tool.py info "song.mp3"
-```
+- convert 输入文件 [输出文件] - 将 NCM 转换为 MP3
+- clip 输入文件 起始秒 结束秒 [输出文件] - 提取音频片段
+- info 文件 - 显示音频文件信息
 
-## 📖 Command Reference
+## 支持的格式
 
-```
-python audio_tool.py <command> [arguments]
+MP3、WAV、AAC、FLAC、OGG、OPUS、NCM
 
-Commands:
-  convert <input> [output]              - Convert NCM to MP3
-  clip <input> <start> <end> [output]   - Extract audio segment
-  info <file>                            - Show audio file information
-```
+## 开源协议
 
-## 💻 Python API
-
-### NCM to MP3 Conversion
-
-```python
-from ncmdump import NeteaseCloudMusicFile
-
-ncm = NeteaseCloudMusicFile("song.ncm")
-ncm.decrypt()
-ncm.dump_music("song.mp3")
-print("Converted: song.mp3")
-```
-
-### Batch Conversion
-
-```python
-from pathlib import Path
-from ncmdump import NeteaseCloudMusicFile
-
-ncm_dir = Path("path/to/ncm/files")
-for ncm_file in ncm_dir.glob("*.ncm"):
-    ncm = NeteaseCloudMusicFile(str(ncm_file))
-    ncm.decrypt()
-    output = str(ncm_file).replace('.ncm', '.mp3')
-    ncm.dump_music(output)
-    print(f"Converted: {ncm_file.name}")
-```
-
-### Audio Clipping with FFmpeg
-
-```bash
-# Basic clipping
-ffmpeg -i input.mp3 -ss 29 -to 45 -c copy output.mp3
-
-# High precision (place -ss before -i)
-ffmpeg -ss 00:01:30 -i input.mp3 -to 00:02:45 -c copy output.mp3
-
-# Convert format
-ffmpeg -i input.mp3 -c:a aac -b:a 192k output.aac
-ffmpeg -i input.flac -c:a libmp3lame -b:a 320k output.mp3
-```
-
-## 📊 Supported Formats
-
-| Format | Extension | Description |
-|--------|-----------|-------------|
-| MP3 | .mp3 | Most widely supported audio format |
-| WAV | .wav | Uncompressed PCM audio |
-| AAC | .aac, .m4a | Advanced Audio Coding |
-| FLAC | .flac | Free Lossless Audio Codec |
-| OGG | .ogg | Open source compressed format |
-| OPUS | .opus | High-efficiency speech/audio |
-| NCM | .ncm | NetEase Cloud Music (encrypted) |
-
-## 🔧 Troubleshooting
-
-### "FFmpeg not found"
-
-Ensure FFmpeg is installed and added to your PATH:
-
-```bash
-# Verify FFmpeg installation
-ffmpeg -version
-```
-
-### "No module named 'imghdr'" (Python 3.13+)
-
-The tool automatically creates a fallback for the removed `imghdr` module. If issues persist, install manually:
-
-```bash
-pip install imghdr
-```
-
-### Chinese Filenames on Windows
-
-Use the Python API instead of CLI for better Unicode support:
-
-```python
-from ncmdump import NeteaseCloudMusicFile
-ncm = NeteaseCloudMusicFile("D:/Music/歌曲.ncm")
-```
-
-## 📂 Project Structure
-
-```
-audio-converter/
-├── .github/
-│   └── workflows/           # CI/CD workflows
-├── docs/
-│   └── README.cn.md         # 中文文档
-├── scripts/
-│   └── audio_tool.py        # Main CLI tool
-├── .gitignore
-├── CHANGELOG.md
-├── CONTRIBUTING.md
-├── LICENSE
-├── README.md
-├── requirements.txt
-└── SKILL.md
-```
-
-## 🤝 Contributing
-
-Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details.
-
-## 📜 License
-
-This project is licensed under the MIT License - see [LICENSE](LICENSE) for details.
-
-## 🙏 Acknowledgments
-
-- [ncmdump-py](https://github.com/zwc404/ncmdump-py) - NCM format decryption
-- [mutagen](https://github.com/quodlibet/mutagen) - Audio metadata handling
-- [FFmpeg](https://ffmpeg.org/) - Audio processing framework
+MIT License
