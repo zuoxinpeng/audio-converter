@@ -1,0 +1,2 @@
+ncmdump-py>=1.0.0
+mutagen>=1.47.0
