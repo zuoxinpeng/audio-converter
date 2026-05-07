@@ -1,80 +1,184 @@
 # Contributing to Audio Converter
 
-Thank you for your interest in contributing!
+Thank you for your interest in contributing! 🎉
 
-## How to Contribute
+## 📋 Table of Contents
 
-### Reporting Bugs
+- [Code of Conduct](#code-of-conduct)
+- [Getting Started](#getting-started)
+- [Development Setup](#development-setup)
+- [Making Changes](#making-changes)
+- [Pull Request Process](#pull-request-process)
+- [Style Guide](#style-guide)
 
-1. Search existing issues first
-2. Create a new issue with:
-   - Clear title and description
-   - Steps to reproduce
-   - Expected vs actual behavior
-   - Python version, OS, FFmpeg version
-   - Error messages or logs
+## Code of Conduct
 
-### Suggesting Features
+Please read our [Code of Conduct](CODE_OF_CONDUCT.md) before participating.
 
-1. Search existing issues first
-2. Open a new issue with:
-   - Clear use case
-   - Expected behavior
-   - Alternative solutions considered
+## Getting Started
 
-### Pull Requests
-
-1. Fork the repository
-2. Create a feature branch:
+1. **Fork the repository** on GitHub
+2. **Clone your fork** locally:
    ```bash
-   git checkout -b feature/your-feature-name
+   git clone https://github.com/your-username/audio-converter.git
+   cd audio-converter
    ```
-3. Make your changes
-4. Test thoroughly
-5. Commit with clear messages
-6. Push and create a Pull Request
-
-## Code Style
-
-- Follow PEP 8
-- Use meaningful variable names
-- Add docstrings for functions
-- Include type hints where helpful
+3. **Add upstream remote**:
+   ```bash
+   git remote add upstream https://github.com/zuoxinpeng/audio-converter.git
+   ```
 
 ## Development Setup
 
-```bash
-# Clone your fork
-git clone https://github.com/your-username/audio-converter.git
-cd audio-converter
+### Prerequisites
 
+- Python 3.10+
+- FFmpeg
+- Git
+
+### Setup
+
+```bash
 # Create virtual environment
 python -m venv venv
-source venv/bin/activate  # Linux/macOS
-venv\Scripts\activate     # Windows
+source venv/bin/activate     # Linux/macOS
+venv\Scripts\activate        # Windows
 
 # Install dependencies
 pip install -r requirements.txt
 
-# Run tests
-python audio_tool.py info test_audio.mp3
+# Install dev dependencies (if any)
+pip install flake8 black isort
+
+# Verify installation
+python scripts/audio_tool.py info --help
 ```
 
-## Project Structure
+## Making Changes
+
+### 1. Create a Branch
+
+```bash
+# Sync with upstream
+git fetch upstream
+git checkout main
+git merge upstream/main
+
+# Create feature branch
+git checkout -b feature/your-feature-name
+# OR bug fix branch
+git checkout -b fix/your-bug-fix
+```
+
+### 2. Make Your Changes
+
+- Write clean, maintainable code
+- Add docstrings to functions
+- Include type hints where appropriate
+- Add tests if applicable
+
+### 3. Test Your Changes
+
+```bash
+# Run syntax check
+python -m py_compile scripts/audio_tool.py
+
+# Test with sample files
+python scripts/audio_tool.py info test.mp3
+
+# Run linter
+flake8 scripts/audio_tool.py --max-line-length=120
+```
+
+### 4. Commit Your Changes
+
+```bash
+# Stage changes
+git add .
+
+# Write clear commit message
+git commit -m "Add feature: description
+
+- What changed
+- Why it changed
+- How to test"
+```
+
+## Pull Request Process
+
+1. **Update documentation** if needed
+2. **Push to your fork**:
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+3. **Open a Pull Request** on GitHub
+4. **Fill in the PR template** completely
+5. **Wait for review** - typically 1-3 business days
+
+### PR Title Format
 
 ```
-audio-converter/
-├── LICENSE
-├── README.md
-├── CONTRIBUTING.md
-├── CHANGELOG.md
-├── requirements.txt
-├── scripts/
-│   └── audio_tool.py    # Main CLI tool
-└── docs/
-    └── README.cn.md     # Chinese documentation
+<type>: <short description>
+
+Types:
+  - feat:     New feature
+  - fix:      Bug fix
+  - docs:     Documentation only
+  - refactor: Code refactoring
+  - test:     Adding or updating tests
+  - chore:    Maintenance tasks
 ```
+
+Example:
+```
+feat: Add batch conversion support for NCM files
+```
+
+## Style Guide
+
+### Python Code
+
+- Follow [PEP 8](https://pep8.org/)
+- Use meaningful variable names
+- Add docstrings to all public functions
+- Maximum line length: 120 characters
+
+### Documentation
+
+- Use clear, concise language
+- Include code examples
+- Keep README and docs in sync with code
+
+### Git Commits
+
+- Use present tense ("Add feature" not "Added feature")
+- First line: 72 characters max
+- Include body for detailed explanation
+
+## 🐛 Reporting Bugs
+
+Use the [Bug Report template](.github/ISSUE_TEMPLATE/bug_report.yml) and include:
+
+- Python version
+- Operating System
+- FFmpeg version
+- Steps to reproduce
+- Expected vs actual behavior
+- Error messages
+
+## 💡 Suggesting Features
+
+Use the [Feature Request template](.github/ISSUE_TEMPLATE/feature_request.yml) and include:
+
+- Clear use case
+- Proposed solution
+- Alternatives considered
+
+## 📝 Additional Resources
+
+- [GitHub Documentation](https://docs.github.com/)
+- [Python Packaging Guide](https://packaging.python.org/)
 
 ## Questions?
 
-Open an issue for discussion before submitting a PR.
+Open an issue with the "question" label for discussion before submitting a PR.

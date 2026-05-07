@@ -1,79 +1,71 @@
 # Audio Converter
 
+![Python](https://img.shields.io/badge/python-3.10+-blue.svg)
+![License](https://img.shields.io/badge/license-MIT-green.svg)
+![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)
+
 A versatile audio format conversion and clipping tool that supports NCM, MP3, WAV, AAC, FLAC, OGG, and more.
 
-## Features
+## ✨ Features
 
 - 🎵 **NCM Format Conversion** - Convert NetEase Cloud Music (NCM) files to MP3/FLAC
-- ✂️ **Audio Clipping** - Extract audio segments by time range
-- 🔄 **Format Conversion** - Convert between MP3, WAV, AAC, FLAC, OGG, and other formats
+- ✂️ **Audio Clipping** - Extract audio segments by time range with precision
+- 🔄 **Format Conversion** - Convert between MP3, WAV, AAC, FLAC, OGG, OPUS, and more
 - 📋 **Metadata Viewing** - View audio file info (duration, bitrate, sample rate)
+- 🐍 **Python API** - Use as a Python library in your own projects
+- 📦 **Batch Processing** - Convert or clip multiple files efficiently
 
-## Installation
+## 🚀 Quick Start
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/zuoxinpeng/audio-converter.git
+cd audio-converter
+
+# Install dependencies
+pip install -r requirements.txt
+```
 
 ### Prerequisites
 
-- Python 3.10+ (Python 3.10-3.12 recommended)
-- FFmpeg (for audio clipping and format conversion)
+- **Python 3.10+** (Python 3.10-3.12 recommended)
+- **FFmpeg** (for audio processing)
 
-### Install FFmpeg
+#### Install FFmpeg
 
-**Windows:**
-1. Download from https://ffmpeg.org/download.html
-2. Extract to a directory (e.g., `C:\ffmpeg`)
-3. Add `bin` directory to system PATH
-4. Restart your terminal
+| Platform | Command |
+|----------|---------|
+| Windows | Download from [ffmpeg.org](https://ffmpeg.org/download.html) |
+| macOS | `brew install ffmpeg` |
+| Linux | `sudo apt install ffmpeg` |
 
-**macOS:**
-```bash
-brew install ffmpeg
-```
-
-**Linux:**
-```bash
-sudo apt install ffmpeg  # Debian/Ubuntu
-sudo yum install ffmpeg  # CentOS/RHEL
-```
-
-### Install Python Dependencies
+### Usage
 
 ```bash
-pip install ncmdump-py
-```
-
-## Quick Start
-
-### Convert NCM to MP3
-
-```bash
+# Convert NCM to MP3
 python audio_tool.py convert "song.ncm"
-```
 
-### Clip Audio Segment
-
-```bash
-# Clip from 29s to 45s
+# Clip audio segment (29s to 45s)
 python audio_tool.py clip "song.mp3" 29 45
-```
 
-### View Audio Info
-
-```bash
+# View audio information
 python audio_tool.py info "song.mp3"
 ```
 
-## Usage
+## 📖 Command Reference
 
 ```
 python audio_tool.py <command> [arguments]
 
 Commands:
-  convert <input> [output]  - Convert NCM to MP3
-  clip <input> <start> <end> [output]  - Extract audio segment
-  info <file>  - Show audio file information
+  convert <input> [output]              - Convert NCM to MP3
+  clip <input> <start> <end> [output]   - Extract audio segment
+  info <file>                            - Show audio file information
 ```
 
-## Python API
+## 💻 Python API
 
 ### NCM to MP3 Conversion
 
@@ -83,42 +75,10 @@ from ncmdump import NeteaseCloudMusicFile
 ncm = NeteaseCloudMusicFile("song.ncm")
 ncm.decrypt()
 ncm.dump_music("song.mp3")
+print("Converted: song.mp3")
 ```
 
-### Audio Clipping
-
-```bash
-ffmpeg -i "input.mp3" -ss 29 -to 45 -c copy "output.mp3"
-```
-
-### Format Conversion
-
-```bash
-# MP3 to WAV
-ffmpeg -i input.mp3 output.wav
-
-# MP3 to AAC
-ffmpeg -i input.mp3 -c:a aac -b:a 192k output.aac
-
-# FLAC to MP3
-ffmpeg -i input.flac -c:a libmp3lame -b:a 320k output.mp3
-```
-
-## Supported Formats
-
-| Format | Extension | Notes |
-|--------|-----------|-------|
-| MP3 | .mp3 | Most common |
-| WAV | .wav | Uncompressed |
-| AAC | .aac, .m4a | Efficient compression |
-| FLAC | .flac | Lossless |
-| OGG | .ogg | Open source |
-| OPUS | .opus | High efficiency |
-| NCM | .ncm | NetEase Cloud Music |
-
-## Batch Processing
-
-### Batch NCM Conversion
+### Batch Conversion
 
 ```python
 from pathlib import Path
@@ -130,25 +90,92 @@ for ncm_file in ncm_dir.glob("*.ncm"):
     ncm.decrypt()
     output = str(ncm_file).replace('.ncm', '.mp3')
     ncm.dump_music(output)
+    print(f"Converted: {ncm_file.name}")
 ```
 
-### Batch Audio Clipping (Linux/macOS)
+### Audio Clipping with FFmpeg
 
 ```bash
-for f in *.mp3; do
-    ffmpeg -i "$f" -ss 29 -to 45 -c copy "clip_${f}"
-done
+# Basic clipping
+ffmpeg -i input.mp3 -ss 29 -to 45 -c copy output.mp3
+
+# High precision (place -ss before -i)
+ffmpeg -ss 00:01:30 -i input.mp3 -to 00:02:45 -c copy output.mp3
+
+# Convert format
+ffmpeg -i input.mp3 -c:a aac -b:a 192k output.aac
+ffmpeg -i input.flac -c:a libmp3lame -b:a 320k output.mp3
 ```
 
-## Documentation
+## 📊 Supported Formats
 
-- [English README](README.md)
-- [中文文档 (Chinese Documentation)](docs/README.cn.md)
+| Format | Extension | Description |
+|--------|-----------|-------------|
+| MP3 | .mp3 | Most widely supported audio format |
+| WAV | .wav | Uncompressed PCM audio |
+| AAC | .aac, .m4a | Advanced Audio Coding |
+| FLAC | .flac | Free Lossless Audio Codec |
+| OGG | .ogg | Open source compressed format |
+| OPUS | .opus | High-efficiency speech/audio |
+| NCM | .ncm | NetEase Cloud Music (encrypted) |
 
-## Contributing
+## 🔧 Troubleshooting
+
+### "FFmpeg not found"
+
+Ensure FFmpeg is installed and added to your PATH:
+
+```bash
+# Verify FFmpeg installation
+ffmpeg -version
+```
+
+### "No module named 'imghdr'" (Python 3.13+)
+
+The tool automatically creates a fallback for the removed `imghdr` module. If issues persist, install manually:
+
+```bash
+pip install imghdr
+```
+
+### Chinese Filenames on Windows
+
+Use the Python API instead of CLI for better Unicode support:
+
+```python
+from ncmdump import NeteaseCloudMusicFile
+ncm = NeteaseCloudMusicFile("D:/Music/歌曲.ncm")
+```
+
+## 📂 Project Structure
+
+```
+audio-converter/
+├── .github/
+│   └── workflows/           # CI/CD workflows
+├── docs/
+│   └── README.cn.md         # 中文文档
+├── scripts/
+│   └── audio_tool.py        # Main CLI tool
+├── .gitignore
+├── CHANGELOG.md
+├── CONTRIBUTING.md
+├── LICENSE
+├── README.md
+├── requirements.txt
+└── SKILL.md
+```
+
+## 🤝 Contributing
 
 Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details.
 
-## License
+## 📜 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see [LICENSE](LICENSE) for details.
+
+## 🙏 Acknowledgments
+
+- [ncmdump-py](https://github.com/zwc404/ncmdump-py) - NCM format decryption
+- [mutagen](https://github.com/quodlibet/mutagen) - Audio metadata handling
+- [FFmpeg](https://ffmpeg.org/) - Audio processing framework
