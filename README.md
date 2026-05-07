@@ -15,7 +15,7 @@
 
 ### 安装依赖
 
-`Bash
+`
 pip install -r requirements.txt
 `
 
@@ -27,7 +27,7 @@ pip install -r requirements.txt
 
 ### 使用方法
 
-`Bash
+`
 # NCM 转换为 MP3
 python audio_tool.py convert 歌曲.ncm
 
