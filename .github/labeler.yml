@@ -1,0 +1,16 @@
+# GitHub Actions Labeler Configuration
+
+bug:
+  - '**/*.py'
+  - '**/*.yml'
+  - '**/*.yaml'
+
+enhancement:
+  - any: ['**/*.py', '**/*.yml', '**/*.yaml']
+
+documentation:
+  - '**/*.md'
+  - 'docs/**/*'
+
+question:
+  - any: ['**/*.md', '**/*.py']

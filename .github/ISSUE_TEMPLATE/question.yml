@@ -1,0 +1,21 @@
+name: Question ❓
+
+description: Ask a question about the project
+
+title: "[Question] "
+labels: ["question"]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## ❓ Question
+        What do you want to know?
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      placeholder: Provide additional context for your question
+    validations:
+      required: true
